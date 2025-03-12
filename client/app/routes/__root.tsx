@@ -24,6 +24,13 @@ import { NotFound } from '~/components/NotFound.js'
 import appCss from '~/styles/app.css?url'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { QueryClient } from '@tanstack/react-query'
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "~/components/ui/navigation-menu"
+import { Button } from "~/components/ui/button"
 
 const fetchClerkAuth = createServerFn({ method: 'GET' }).handler(async () => {
   const { userId, getToken } = await getAuth(getWebRequest()!)
@@ -103,40 +110,85 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html className="h-full">
       <head>
         <HeadContent />
       </head>
-      <body>
-        <div className="p-2 flex gap-2 text-lg">
-          <Link
-            to="/"
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link>{' '}
-          <Link
-            to="/posts"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Posts
-          </Link>
-          <div className="ml-auto">
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-            <SignedOut>
-              <SignInButton mode="modal" />
-            </SignedOut>
+      <body className="h-full flex flex-col">
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container flex h-16 items-center px-4">
+            <NavigationMenu className="mx-6">
+              <NavigationMenuList className="gap-6">
+                <NavigationMenuItem>
+                  <Link to="/" preload="intent">
+                    <NavigationMenuLink
+                      className="text-sm font-medium transition-colors hover:text-primary/80 text-primary"
+                    >
+                      Home
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/posts" preload="intent">
+                    <NavigationMenuLink
+                      className="text-sm font-medium transition-colors hover:text-primary/80 text-foreground/60"
+                    >
+                      Posts
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+            <div className="ml-auto flex items-center space-x-4">
+              <SignedIn>
+                <UserButton afterSignOutUrl="/" />
+              </SignedIn>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <Button variant="outline" size="sm">
+                    Sign In
+                  </Button>
+                </SignInButton>
+              </SignedOut>
+            </div>
+          </div>
+        </header>
+        <main className="">
+          {children}
+        </main>
+        <footer className="border-t bg-background mt-32">
+        <div className="max-w-6xl mx-auto px-4 py-12 text-center">
+          <div className="grid md:grid-cols-4 gap-8 text-sm text-muted-foreground mb-8">
+            <div className="space-y-2">
+              <div className="font-semibold text-slate-900">Product</div>
+              <div>Features</div>
+              <div>Pricing</div>
+              <div>Security</div>
+            </div>
+            <div className="space-y-2">
+              <div className="font-semibold text-slate-900">Company</div>
+              <div>About</div>
+              <div>Blog</div>
+              <div>Careers</div>
+            </div>
+            <div className="space-y-2">
+              <div className="font-semibold text-slate-900">Legal</div>
+              <div>Privacy</div>
+              <div>Terms</div>
+              <div>Cookie Policy</div>
+            </div>
+            <div className="space-y-2">
+              <div className="font-semibold text-slate-900">Contact</div>
+              <div>Support</div>
+              <div>Twitter</div>
+              <div>LinkedIn</div>
+            </div>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            © 2024 Meeting Recall. All rights reserved.
           </div>
         </div>
-        <hr />
-        {children}
+      </footer>
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
 

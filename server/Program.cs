@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,11 +23,10 @@ builder.Services.AddDbContext<MeetingrecallContext>(o =>
     o.UseMySQL(builder.Configuration.GetConnectionString("db"));
 });
 
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//{
-//    options.
-//    options.UseMySQL();
-//});
+builder.Services.AddMediatR(o =>
+{
+    o.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+});
 
 builder.Services.AddCors(opt =>
 {
@@ -39,7 +39,7 @@ builder.Services.AddCors(opt =>
     });
 });
 
-
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -75,6 +75,10 @@ app.UseCors("allow_app");
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(o =>
+    {
+        o.SwaggerEndpoint("/openapi/v1.json", "v1");
+    });
 }
 
 

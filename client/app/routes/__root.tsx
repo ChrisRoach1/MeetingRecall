@@ -35,6 +35,7 @@ import { Button } from "~/components/ui/button"
 const fetchClerkAuth = createServerFn({ method: 'GET' }).handler(async () => {
   const { userId, getToken } = await getAuth(getWebRequest()!)
 
+  console.log(userId)
   var token = await getToken()
 
   return {

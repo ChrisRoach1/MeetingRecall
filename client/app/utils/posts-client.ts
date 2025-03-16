@@ -19,7 +19,7 @@ export async function fetchWeather(token: string){
   console.log( `token ${token}`)
   console.info('Fetching weather...')
   return axios
-    .get<Array<WeatherForecastType>>('https://localhost:7193/WeatherForecast',{
+    .get<Array<WeatherForecastType>>('https://localhost:7193/api/meetingnotes',{
       headers:{
         Authorization: `Bearer ${token}`
       }

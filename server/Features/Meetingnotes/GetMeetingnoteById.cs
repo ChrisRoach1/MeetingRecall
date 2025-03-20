@@ -25,7 +25,7 @@ namespace server.Features.Meetingnotes
 
             public async Task<Meetingnote?> Handle(Query request, CancellationToken cancellationToken)
             {
-                var userId = _httpContextAccessor?.HttpContext?.User.Claims.First(x => x.Type == "UserId").Value;
+                var userId = _httpContextAccessor?.HttpContext?.User.Claims.First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
                 
                 if (userId == null)
                 {

@@ -15,7 +15,6 @@ export const Route = createFileRoute('/_authed/posts')({
 
 function PostsComponent() {
   const posts = Route.useLoaderData()
-  const { isLoaded, isSignedIn, userId, sessionId, getToken } = useAuth()
   const myContext = useRouteContext({from: '/_authed'})
 
   console.log(myContext.token)

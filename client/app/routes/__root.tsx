@@ -142,7 +142,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             </NavigationMenu>
             <div className="ml-auto flex items-center space-x-4">
               <SignedIn>
-                <UserButton afterSignOutUrl="/" />
+                <UserButton />
               </SignedIn>
               <SignedOut>
                 <SignInButton mode="modal">
@@ -190,6 +190,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
+      
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
 

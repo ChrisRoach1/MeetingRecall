@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthedImport } from './routes/_authed'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthedSummarizeNotesImport } from './routes/_authed/summarize-notes'
 import { Route as AuthedPostsImport } from './routes/_authed/posts'
 import { Route as AuthedPostsIndexImport } from './routes/_authed/posts.index'
 import { Route as AuthedProfileSplatImport } from './routes/_authed/profile.$'
@@ -29,6 +30,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthedSummarizeNotesRoute = AuthedSummarizeNotesImport.update({
+  id: '/summarize-notes',
+  path: '/summarize-notes',
+  getParentRoute: () => AuthedRoute,
 } as any)
 
 const AuthedPostsRoute = AuthedPostsImport.update({
@@ -80,6 +87,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedPostsImport
       parentRoute: typeof AuthedImport
     }
+    '/_authed/summarize-notes': {
+      id: '/_authed/summarize-notes'
+      path: '/summarize-notes'
+      fullPath: '/summarize-notes'
+      preLoaderRoute: typeof AuthedSummarizeNotesImport
+      parentRoute: typeof AuthedImport
+    }
     '/_authed/posts/$postId': {
       id: '/_authed/posts/$postId'
       path: '/$postId'
@@ -122,11 +136,13 @@ const AuthedPostsRouteWithChildren = AuthedPostsRoute._addFileChildren(
 
 interface AuthedRouteChildren {
   AuthedPostsRoute: typeof AuthedPostsRouteWithChildren
+  AuthedSummarizeNotesRoute: typeof AuthedSummarizeNotesRoute
   AuthedProfileSplatRoute: typeof AuthedProfileSplatRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedPostsRoute: AuthedPostsRouteWithChildren,
+  AuthedSummarizeNotesRoute: AuthedSummarizeNotesRoute,
   AuthedProfileSplatRoute: AuthedProfileSplatRoute,
 }
 
@@ -137,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
   '/posts': typeof AuthedPostsRouteWithChildren
+  '/summarize-notes': typeof AuthedSummarizeNotesRoute
   '/posts/$postId': typeof AuthedPostsPostIdRoute
   '/profile/$': typeof AuthedProfileSplatRoute
   '/posts/': typeof AuthedPostsIndexRoute
@@ -145,6 +162,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
+  '/summarize-notes': typeof AuthedSummarizeNotesRoute
   '/posts/$postId': typeof AuthedPostsPostIdRoute
   '/profile/$': typeof AuthedProfileSplatRoute
   '/posts': typeof AuthedPostsIndexRoute
@@ -155,6 +173,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/_authed/posts': typeof AuthedPostsRouteWithChildren
+  '/_authed/summarize-notes': typeof AuthedSummarizeNotesRoute
   '/_authed/posts/$postId': typeof AuthedPostsPostIdRoute
   '/_authed/profile/$': typeof AuthedProfileSplatRoute
   '/_authed/posts/': typeof AuthedPostsIndexRoute
@@ -162,14 +181,22 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/posts' | '/posts/$postId' | '/profile/$' | '/posts/'
+  fullPaths:
+    | '/'
+    | ''
+    | '/posts'
+    | '/summarize-notes'
+    | '/posts/$postId'
+    | '/profile/$'
+    | '/posts/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/posts/$postId' | '/profile/$' | '/posts'
+  to: '/' | '' | '/summarize-notes' | '/posts/$postId' | '/profile/$' | '/posts'
   id:
     | '__root__'
     | '/'
     | '/_authed'
     | '/_authed/posts'
+    | '/_authed/summarize-notes'
     | '/_authed/posts/$postId'
     | '/_authed/profile/$'
     | '/_authed/posts/'
@@ -207,6 +234,7 @@ export const routeTree = rootRoute
       "filePath": "_authed.tsx",
       "children": [
         "/_authed/posts",
+        "/_authed/summarize-notes",
         "/_authed/profile/$"
       ]
     },
@@ -217,6 +245,10 @@ export const routeTree = rootRoute
         "/_authed/posts/$postId",
         "/_authed/posts/"
       ]
+    },
+    "/_authed/summarize-notes": {
+      "filePath": "_authed/summarize-notes.tsx",
+      "parent": "/_authed"
     },
     "/_authed/posts/$postId": {
       "filePath": "_authed/posts.$postId.tsx",

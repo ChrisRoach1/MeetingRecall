@@ -3,6 +3,7 @@ import { SignIn } from '@clerk/tanstack-start'
 
 export const Route = createFileRoute('/_authed')({
   beforeLoad: ({ context }) => {
+    console.log(context)
     if (!context.userId) {
       throw new Error('Not authenticated')
     }

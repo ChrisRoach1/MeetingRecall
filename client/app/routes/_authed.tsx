@@ -3,7 +3,7 @@ import { SignIn } from '@clerk/tanstack-start'
 
 export const Route = createFileRoute('/_authed')({
   beforeLoad: ({ context }) => {
-    console.log(context)
+    console.log('context')
     if (!context.userId) {
       throw new Error('Not authenticated')
     }
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_authed')({
     if (error.message === 'Not authenticated') {
       return (
         <div className="flex items-center justify-center p-12">
-          <SignIn routing="hash" forceRedirectUrl={window.location.href} />
+          <SignIn routing="hash" />
         </div>
       )
     }

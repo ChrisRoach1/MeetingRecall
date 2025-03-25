@@ -111,13 +111,13 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html className="h-full">
+    <html>
       <head>
         <HeadContent />
       </head>
-      <body className="h-full flex flex-col">
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-16 items-center px-4">
+      <body className="">
+        <header className="w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="flex h-16 p-1">
             <NavigationMenu className="mx-6">
               <NavigationMenuList className="gap-6">
                 <NavigationMenuItem>
@@ -138,6 +138,26 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
+                <SignedIn>
+                <NavigationMenuItem>
+                  <Link to="/summarize-notes" preload="intent">
+                    <NavigationMenuLink
+                      className="text-sm font-medium transition-colors hover:text-primary/80 text-foreground/60"
+                    >
+                      Summarize
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/notes" preload="intent">
+                    <NavigationMenuLink
+                      className="text-sm font-medium transition-colors hover:text-primary/80 text-foreground/60"
+                    >
+                      Notes
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>                
+                </SignedIn>
               </NavigationMenuList>
             </NavigationMenu>
             <div className="ml-auto flex items-center space-x-4">

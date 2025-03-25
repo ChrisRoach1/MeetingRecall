@@ -25,15 +25,25 @@ namespace server.Features.Meetingnotes
 
             public async Task<List<Meetingnote>?> Handle(Query request, CancellationToken cancellationToken)
             {
-                var userId = _httpContextAccessor?.HttpContext?.User.Claims.First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-                
-                if (userId == null)
+                try
                 {
+                    var userId = _httpContextAccessor?.HttpContext?.User.Claims.First(x =>
+                        x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+
+                    if (userId == null)
+                    {
+                        return null;
+                    }
+
+                    var meetingnote = await _context.Meetingnotes.Where(x => x.UserId == userId).ToListAsync();
+                    return meetingnote;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
                     return null;
                 }
-                
-                var meetingnote = await _context.Meetingnotes.Where(x => x.UserId == userId).ToListAsync();
-                return meetingnote;
+
             }
         }
     }

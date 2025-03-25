@@ -123,18 +123,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 <NavigationMenuItem>
                   <Link to="/" preload="intent">
                     <NavigationMenuLink
-                      className="text-sm font-medium transition-colors hover:text-primary/80 text-primary"
-                    >
-                      Home
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/posts" preload="intent">
-                    <NavigationMenuLink
                       className="text-sm font-medium transition-colors hover:text-primary/80 text-foreground/60"
                     >
-                      Posts
+                      Home
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>

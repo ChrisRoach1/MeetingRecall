@@ -14,11 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthedImport } from './routes/_authed'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthedSummarizeNotesImport } from './routes/_authed/summarize-notes'
-import { Route as AuthedPostsImport } from './routes/_authed/posts'
 import { Route as AuthedNotesImport } from './routes/_authed/notes'
-import { Route as AuthedPostsIndexImport } from './routes/_authed/posts.index'
-import { Route as AuthedProfileSplatImport } from './routes/_authed/profile.$'
-import { Route as AuthedPostsPostIdImport } from './routes/_authed/posts.$postId'
 
 // Create/Update Routes
 
@@ -39,34 +35,10 @@ const AuthedSummarizeNotesRoute = AuthedSummarizeNotesImport.update({
   getParentRoute: () => AuthedRoute,
 } as any)
 
-const AuthedPostsRoute = AuthedPostsImport.update({
-  id: '/posts',
-  path: '/posts',
-  getParentRoute: () => AuthedRoute,
-} as any)
-
 const AuthedNotesRoute = AuthedNotesImport.update({
   id: '/notes',
   path: '/notes',
   getParentRoute: () => AuthedRoute,
-} as any)
-
-const AuthedPostsIndexRoute = AuthedPostsIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthedPostsRoute,
-} as any)
-
-const AuthedProfileSplatRoute = AuthedProfileSplatImport.update({
-  id: '/profile/$',
-  path: '/profile/$',
-  getParentRoute: () => AuthedRoute,
-} as any)
-
-const AuthedPostsPostIdRoute = AuthedPostsPostIdImport.update({
-  id: '/$postId',
-  path: '/$postId',
-  getParentRoute: () => AuthedPostsRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -94,13 +66,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedNotesImport
       parentRoute: typeof AuthedImport
     }
-    '/_authed/posts': {
-      id: '/_authed/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof AuthedPostsImport
-      parentRoute: typeof AuthedImport
-    }
     '/_authed/summarize-notes': {
       id: '/_authed/summarize-notes'
       path: '/summarize-notes'
@@ -108,58 +73,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedSummarizeNotesImport
       parentRoute: typeof AuthedImport
     }
-    '/_authed/posts/$postId': {
-      id: '/_authed/posts/$postId'
-      path: '/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof AuthedPostsPostIdImport
-      parentRoute: typeof AuthedPostsImport
-    }
-    '/_authed/profile/$': {
-      id: '/_authed/profile/$'
-      path: '/profile/$'
-      fullPath: '/profile/$'
-      preLoaderRoute: typeof AuthedProfileSplatImport
-      parentRoute: typeof AuthedImport
-    }
-    '/_authed/posts/': {
-      id: '/_authed/posts/'
-      path: '/'
-      fullPath: '/posts/'
-      preLoaderRoute: typeof AuthedPostsIndexImport
-      parentRoute: typeof AuthedPostsImport
-    }
   }
 }
 
 // Create and export the route tree
 
-interface AuthedPostsRouteChildren {
-  AuthedPostsPostIdRoute: typeof AuthedPostsPostIdRoute
-  AuthedPostsIndexRoute: typeof AuthedPostsIndexRoute
-}
-
-const AuthedPostsRouteChildren: AuthedPostsRouteChildren = {
-  AuthedPostsPostIdRoute: AuthedPostsPostIdRoute,
-  AuthedPostsIndexRoute: AuthedPostsIndexRoute,
-}
-
-const AuthedPostsRouteWithChildren = AuthedPostsRoute._addFileChildren(
-  AuthedPostsRouteChildren,
-)
-
 interface AuthedRouteChildren {
   AuthedNotesRoute: typeof AuthedNotesRoute
-  AuthedPostsRoute: typeof AuthedPostsRouteWithChildren
   AuthedSummarizeNotesRoute: typeof AuthedSummarizeNotesRoute
-  AuthedProfileSplatRoute: typeof AuthedProfileSplatRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedNotesRoute: AuthedNotesRoute,
-  AuthedPostsRoute: AuthedPostsRouteWithChildren,
   AuthedSummarizeNotesRoute: AuthedSummarizeNotesRoute,
-  AuthedProfileSplatRoute: AuthedProfileSplatRoute,
 }
 
 const AuthedRouteWithChildren =
@@ -169,11 +95,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
   '/notes': typeof AuthedNotesRoute
-  '/posts': typeof AuthedPostsRouteWithChildren
   '/summarize-notes': typeof AuthedSummarizeNotesRoute
-  '/posts/$postId': typeof AuthedPostsPostIdRoute
-  '/profile/$': typeof AuthedProfileSplatRoute
-  '/posts/': typeof AuthedPostsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -181,9 +103,6 @@ export interface FileRoutesByTo {
   '': typeof AuthedRouteWithChildren
   '/notes': typeof AuthedNotesRoute
   '/summarize-notes': typeof AuthedSummarizeNotesRoute
-  '/posts/$postId': typeof AuthedPostsPostIdRoute
-  '/profile/$': typeof AuthedProfileSplatRoute
-  '/posts': typeof AuthedPostsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -191,43 +110,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/_authed/notes': typeof AuthedNotesRoute
-  '/_authed/posts': typeof AuthedPostsRouteWithChildren
   '/_authed/summarize-notes': typeof AuthedSummarizeNotesRoute
-  '/_authed/posts/$postId': typeof AuthedPostsPostIdRoute
-  '/_authed/profile/$': typeof AuthedProfileSplatRoute
-  '/_authed/posts/': typeof AuthedPostsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | ''
-    | '/notes'
-    | '/posts'
-    | '/summarize-notes'
-    | '/posts/$postId'
-    | '/profile/$'
-    | '/posts/'
+  fullPaths: '/' | '' | '/notes' | '/summarize-notes'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | ''
-    | '/notes'
-    | '/summarize-notes'
-    | '/posts/$postId'
-    | '/profile/$'
-    | '/posts'
+  to: '/' | '' | '/notes' | '/summarize-notes'
   id:
     | '__root__'
     | '/'
     | '/_authed'
     | '/_authed/notes'
-    | '/_authed/posts'
     | '/_authed/summarize-notes'
-    | '/_authed/posts/$postId'
-    | '/_authed/profile/$'
-    | '/_authed/posts/'
   fileRoutesById: FileRoutesById
 }
 
@@ -262,38 +158,16 @@ export const routeTree = rootRoute
       "filePath": "_authed.tsx",
       "children": [
         "/_authed/notes",
-        "/_authed/posts",
-        "/_authed/summarize-notes",
-        "/_authed/profile/$"
+        "/_authed/summarize-notes"
       ]
     },
     "/_authed/notes": {
       "filePath": "_authed/notes.tsx",
       "parent": "/_authed"
     },
-    "/_authed/posts": {
-      "filePath": "_authed/posts.tsx",
-      "parent": "/_authed",
-      "children": [
-        "/_authed/posts/$postId",
-        "/_authed/posts/"
-      ]
-    },
     "/_authed/summarize-notes": {
       "filePath": "_authed/summarize-notes.tsx",
       "parent": "/_authed"
-    },
-    "/_authed/posts/$postId": {
-      "filePath": "_authed/posts.$postId.tsx",
-      "parent": "/_authed/posts"
-    },
-    "/_authed/profile/$": {
-      "filePath": "_authed/profile.$.tsx",
-      "parent": "/_authed"
-    },
-    "/_authed/posts/": {
-      "filePath": "_authed/posts.index.tsx",
-      "parent": "/_authed/posts"
     }
   }
 }

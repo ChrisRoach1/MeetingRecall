@@ -44,7 +44,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto py-6">
+    <div className="max-w-3xl mx-auto py-6 p-3">
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Meeting Notes Summarizer</CardTitle>

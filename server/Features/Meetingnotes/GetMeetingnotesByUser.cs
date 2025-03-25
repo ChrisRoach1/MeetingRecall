@@ -50,7 +50,7 @@ namespace server.Features.Meetingnotes
 
     [ApiController]
     [Route("api/meetingnotes")]
-    //[Authorize]
+    [Authorize]
     public class GetMeetingnotesByUserEndpoint : ControllerBase
     {
         private readonly IMediator _mediator;
